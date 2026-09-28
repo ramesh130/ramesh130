@@ -1,6 +1,6 @@
 # 👋 Hi, I'm Ramesh Prasad
 
-**Software Architect & Engineering Leader** (ex-Dolby) | 20+ years building **mobile, media, streaming and cloud platforms** | Now applying codec-style measurement to **LLM agent evaluation**
+**Software Architect & Engineering Leader** (ex-Dolby) | 20+ years building **mobile, media, streaming and cloud platforms** | Now building **agents and evaluation harnesses** for the same kind of problem
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/ramesh130)
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ramesh130)
@@ -11,8 +11,8 @@
 ## 🚀 About Me
 I'm a technology leader and software architect based in Sydney. My career runs the full media stack, from wavelet codecs on DSPs and FPGAs, through HLS/DASH ad-insertion platforms, to ultra-low-latency WebRTC SDKs on Android. I've moved between hands-on engineering, architecture, and leadership at startups and global technology companies.
 
-- 🔬 **Current Focus**: Evaluating LLM agents on quality, cost and latency together, the way codecs are judged on rate-distortion curves
-- 🚀 **Active Project**: [pareto-eval](https://github.com/ramesh130/pareto-eval), a Pareto-frontier eval harness with a judge-calibration gate
+- 🔬 **Current Focus**: Agents and evaluation for problems that need real measurement, not demos — every claim cited, every trade-off on a frontier
+- 🚀 **Active Projects**: [perfettoagent](https://github.com/ramesh130/perfettoagent) · [superplayer](https://github.com/ramesh130/superplayer) · [pareto-eval](https://github.com/ramesh130/pareto-eval)
 - 📚 **Learning**: AI Agents course by Ed Donner
 - 🏗️ **Background**: Software architecture, platform strategy, SDK design, and performance engineering (startup time, jank, memory, latency)
 - 💼 **Experience**: Dolby Laboratories (Senior Staff Architect) | AdSparx, acquired by Discovery (VP Engineering) | CCentric, acquired by EY | Co-founder & CEO, Einsteiner Technologies
@@ -25,12 +25,12 @@ I'm a technology leader and software architect based in Sydney. My career runs t
 - Kotlin, Java, TypeScript, C, C++, Python, Swift
 
 **Mobile & Client Platforms**
-- Android, iOS, React Native, Jetpack Compose, JNI, NDK
-- Profiling with Perfetto and Android Studio Profiler
+- Android, iOS, React Native, Jetpack Compose, JNI, NDK, AndroidX Media3
+- Profiling and tracing with Perfetto and Android Studio Profiler
 
 **Media & Streaming**
-- WebRTC, HLS, MPEG-DASH, Smooth Streaming, RTSP/RTP/RTCP, RTMP
-- H.264/AVC, JPEG2000, wavelets, FFMPEG, MP4Box
+- WebRTC, HLS, MPEG-DASH, Smooth Streaming, RTSP/RTP/RTCP, RTMP, MoQ
+- H.264/AVC, JPEG2000, wavelets, FFMPEG, MP4Box, ABR, CTA-2066 QoE
 - DRM: Widevine, PlayReady, Common Encryption
 
 **Cloud & Backend**
@@ -38,12 +38,31 @@ I'm a technology leader and software architect based in Sydney. My career runs t
 - REST, microservices, pub-sub, Node.js
 
 **AI & Evaluation**
-- LLM agent evaluation, LLM-as-a-judge calibration (Cohen's kappa), Anthropic & OpenAI APIs
-- uv, pytest, GitHub Actions
+- LLM agents and tool use, LLM-as-a-judge calibration (Cohen's kappa), Anthropic & OpenAI APIs
+- Agent evals on planted ground truth, uv, pytest, GitHub Actions
 
 ---
 
-## 🌟 Featured Project
+## 🌟 Featured Projects
+
+### 🔍 [perfettoagent](https://github.com/ramesh130/perfettoagent)
+**LLM agent for Android performance regressions | Cited diagnosis, verified by code**
+- Takes two Perfetto traces and a git range, returns which metric regressed, by how much, which commit caused it, and the trace rows that prove it
+- **Every claim cites a trace query or a commit**, and a deterministic verifier re-runs each citation before anything is written, dropping claims whose citation fails
+- Covers slow startup, allocation-churn jank, main-thread blocking, layout thrash and memory leaks
+- **Measured on planted regressions**, 20 cases across two apps, each run three times: at `xhigh` effort, 93% detection, 100% attribution, 96% citation validity, at $0.044 per trace
+- **Tech**: Python, Perfetto trace processor SQL, git tooling, OpenAI & Anthropic APIs
+- 📊 [Full eval results](https://github.com/ramesh130/perfettoagent/blob/HEAD/evals/results/summary.md)
+
+### ▶️ [superplayer](https://github.com/ramesh130/superplayer)
+**A production playback layer on AndroidX Media3 | Policy, resilience, observability, lifecycle**
+- Not a fork and not a new player: `SuperPlayer` *is* a Media3 `Player`, so existing `PlayerView`, `MediaSession` and Compose surfaces take it unchanged
+- Content has a **stable id instead of a URL**, so the cache key, CMCD session, telemetry row and notification all agree on one identity
+- 14 modules behind one seam each: ABR, cache, preload, resilience, DRM, offline, TV, diagnostics, realtime, Media over QUIC
+- QoE measured to **CTA-2066**, with every departure from the standard cited
+- **18 architecture decision records** arguing the design, and a committed benchmark that reports where the adaptive policy *lost*
+- Apache-2.0 · Kotlin · pre-1.0, unpublished by design — the decision records are the point
+- **Tech**: Kotlin, AndroidX Media3, Gradle convention plugins, Robolectric
 
 ### ⚖️ [pareto-eval](https://github.com/ramesh130/pareto-eval)
 **Multi-axis evaluation for LLM agents | Quality × Cost × Latency**
@@ -51,7 +70,6 @@ I'm a technology leader and software architect based in Sydney. My career runs t
 - Borrows the **rate-distortion curve** from video compression: a configuration is dominated when another beats it on every axis
 - **Judge-calibration gate**: measures LLM-judge vs human agreement with Cohen's kappa before any judge score counts
 - **CI gate** asks "did this change fall behind the frontier we already had?", not just "did quality drop?"
-- Puts Claude and GPT variants on the same frontier in one run
 - **Tech**: Python, uv, Anthropic & OpenAI SDKs, pytest
 - 📄 [Write-up](https://github.com/ramesh130/pareto-eval/blob/HEAD/docs/writeup.md) · [Design decisions](https://github.com/ramesh130/pareto-eval/blob/HEAD/docs/decisions.md)
 
@@ -78,7 +96,7 @@ I'm a technology leader and software architect based in Sydney. My career runs t
 
 ## 🤝 Let's Connect!
 I'm always happy to talk about:
-- 🤖 Evaluating LLM agents: frontiers, judges, and honest metrics
+- 🤖 LLM agents and how to actually measure them
 - 📱 Mobile SDK and platform architecture
 - 🎬 Streaming, codecs, and media pipelines
 - 🧭 Engineering leadership and technical strategy
